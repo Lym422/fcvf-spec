@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Lym422/fcvf-spec/schema/evidence-record.schema.json",
+  "title": "FCVF Evidence Record",
+  "description": "Machine-readable form of the evidence record in Section 6 of the Freight Custody Verification Framework, version 0.1 draft. Field names mirror Table 6.1. Fields required at the Basic level are listed in 'required'; Standard and Full fields are optional in the schema and mandatory by conformance level.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "fcvf_version", "transfer_id", "stage", "timestamp", "site_id", "load_reference",
+    "carrier_of_record", "usdot_as_read", "registry_result", "identity_match",
+    "seal_expected", "seal_observed", "seal_match", "verdict", "decided_by", "override", "incident"
+  ],
+  "properties": {
+    "fcvf_version": { "type": "string", "description": "Version of the framework the record conforms to, e.g. 0.1", "examples": ["0.1"] },
+    "transfer_id": { "type": "string", "description": "Unique identifier for this custody transfer (Basic)" },
+    "stage": { "type": "string", "enum": ["pickup", "stop", "delivery"], "description": "Basic" },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Time of verification with offset, RFC 3339 (Basic)" },
+    "site_id": { "type": "string", "description": "Identifier of the releasing or receiving site (Basic). Anonymize before sharing." },
+    "load_reference": { "type": "string", "description": "Bill of lading, order, or load number (Basic). Anonymize before sharing." },
+    "carrier_of_record": {
+      "type": "object", "description": "From tender or rate confirmation (Basic)",
+      "required": ["usdot"],
+      "properties": {
+        "usdot": { "type": "string", "pattern": "^[0-9]{1,8}$" },
+        "legal_name": { "type": "string" },
+        "mc_number": { "type": "string" }
+      }
+    },
+    "carrier_of_record_source": {
+      "type": "object", "description": "Which record established the carrier of record and whether it was confirmed with the intermediary under P-6 (Standard)",
+      "properties": {
+        "document": { "type": "string", "enum": ["rate_confirmation", "bill_of_lading", "tender", "tms", "other"] },
+        "confirmed_with_intermediary": { "type": "boolean" },
+        "confirmation_channel": { "type": "string", "enum": ["phone_on_file", "portal", "email_on_file", "none"] }
+      }
+    },
+    "usdot_as_read": { "type": ["string", "null"], "description": "Number observed or read from the presenting vehicle; null if unreadable (Basic)" },
+    "read_method": { "type": "string", "enum": ["manual", "photo_manual", "automated"], "description": "Standard" },
+    "registry_result": {
+      "type": "object", "description": "As returned by the FMCSA public query service (Basic)",
+      "properties": {
+        "queried_at": { "type": "string", "format": "date-time" },
+        "legal_name": { "type": ["string", "null"] },
+        "dba_name": { "type": ["string", "null"] },
+        "allowed_to_operate": { "type": ["boolean", "null"] },
+        "out_of_service": { "type": ["boolean", "null"] },
+        "out_of_service_date": { "type": ["string", "null"], "format": "date" },
+        "authority_status": { "type": ["string", "null"] },
+        "mcs150_date": { "type": ["string", "null"], "format": "date" },
+        "power_units": { "type": ["integer", "null"] },
+        "drivers": { "type": ["integer", "null"] },
+        "lookup_error": { "type": ["string", "null"], "description": "Set when the registry could not be reached; G-5 applies" }
+      }
+    },
+    "identity_match": {
+      "type": "object", "description": "Basic",
+      "required": ["result"],
+      "properties": {
+        "result": { "type": "string", "enum": ["match", "mismatch", "unresolved"] },
+        "reason": { "type": "string" }
+      }
+    },
+    "red_flags": {
+      "type": "array", "description": "Rules in Section 7.2 that fired (Standard)",
+      "items": {
+        "type": "object",
+        "required": ["rule", "classification"],
+        "properties": {
+          "rule": { "type": "string", "pattern": "^R-[0-9]{1,2}$" },
+          "classification": { "type": "string", "enum": ["blocking", "advisory"] },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "license_plate": { "type": "object", "description": "Standard", "properties": { "plate": { "type": "string" }, "state": { "type": "string" } } },
+    "driver": {
+      "type": "object", "description": "As presented in person (Standard). Personal data; subject to E-4. Exclude or redact when sharing.",
+      "properties": { "name": { "type": "string" }, "license_state": { "type": "string" }, "id_seen_in_person": { "type": "boolean" } }
+    },
+    "seal_expected": {
+      "type": "object", "description": "From previous seal event or shipping documents (Basic)",
+      "properties": {
+        "identifier": { "type": ["string", "null"] },
+        "seal_type": { "type": ["string", "null"], "enum": ["bolt", "cable", "plastic_indicative", "padlock", "electronic", "other", null] },
+        "source": { "type": "string", "enum": ["previous_seal_event", "shipping_documents", "none"] }
+      }
+    },
+    "seal_observed": {
+      "type": "object", "description": "Basic",
+      "required": ["presence"],
+      "properties": {
+        "presence": { "type": "string", "enum": ["present", "absent", "uncertain"] },
+        "identifier": { "type": ["string", "null"] },
+        "seal_type": { "type": ["string", "null"], "enum": ["bolt", "cable", "plastic_indicative", "padlock", "electronic", "other", null] },
+        "tamper_evidence": { "type": ["boolean", "null"] }
+      }
+    },
+    "seal_detection_method": { "type": "string", "enum": ["manual", "photo_manual", "automated"], "description": "Standard" },
+    "rfid_reader_result": {
+      "type": "object", "description": "Where an electronic or RFID seal is used; an identifier check only (P-12)",
+      "properties": { "tag_read": { "type": "boolean" }, "identifier": { "type": ["string", "null"] }, "matches_expected": { "type": ["boolean", "null"] } }
+    },
+    "seal_match": { "type": "string", "enum": ["match", "mismatch", "absent", "unreadable"], "description": "Basic" },
+    "previous_seal_event": { "type": ["string", "null"], "description": "transfer_id of the prior record on multi-stop routes (Standard)" },
+    "images": {
+      "type": "array", "description": "Standard",
+      "items": {
+        "type": "object",
+        "required": ["view", "reference", "captured_at"],
+        "properties": {
+          "view": { "type": "string", "enum": ["cab_side", "door_closure", "plate", "other"] },
+          "reference": { "type": "string", "description": "URI or storage key; never the image bytes" },
+          "captured_at": { "type": "string", "format": "date-time" },
+          "redacted": { "type": "boolean", "description": "True if faces and plates were blurred for sharing" }
+        }
+      }
+    },
+    "verdict": {
+      "type": "object", "description": "Basic",
+      "required": ["result", "reasons"],
+      "properties": {
+        "result": { "type": "string", "enum": ["release", "verify", "hold"] },
+        "recommended_by": { "type": "string", "enum": ["procedure", "system"] },
+        "reasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "decided_by": { "type": "string", "description": "Name or identifier of the person who decided (Basic). Personal data; pseudonymize when sharing." },
+    "override": {
+      "type": "object", "description": "Basic",
+      "required": ["applied"],
+      "properties": { "applied": { "type": "boolean" }, "by": { "type": "string" }, "reason": { "type": "string" } }
+    },
+    "incident": {
+      "type": "object", "description": "Basic",
+      "required": ["recorded"],
+      "properties": {
+        "recorded": { "type": "boolean" },
+        "reported_to": { "type": "array", "items": { "type": "string", "enum": ["carrier_of_record", "shipper", "broker", "theft_recording_service", "law_enforcement", "insurer", "other"] } },
+        "reference": { "type": "string" }
+      }
+    }
+  }
+}

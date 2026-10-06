@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use or cite this framework, please cite it as below."
+title: "Freight Custody Verification Framework (FCVF)"
+version: "0.1-draft"
+date-released: "2026-10-06"
+authors:
+  - family-names: "Meng"
+    given-names: "Lingyu"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # add if you have one; free at orcid.org
+type: "standard"
+license: "CC-BY-4.0"
+repository-code: "https://github.com/Lym422/fcvf-spec"
+doi: "10.5281/zenodo.23179115"
+abstract: >
+  An open framework specifying what a party that releases, receives, or carries truckload
+  freight must do to verify, at each physical custody transfer, that the vehicle taking custody
+  belongs to the carrier of record and that the load's seal is present and intact, and what
+  record of that verification must be kept. Forty-eight numbered requirements at three
+  conformance levels (Basic, Standard, Full), a common evidence record, verdict grading
+  (release, verify, hold), risk rules derived from FBI and FMCSA guidance, and a mapping to
+  CTPAT, TAPA, TIA, and DOT guidance.
+keywords:
+  - cargo theft
+  - freight fraud
+  - custody transfer
+  - carrier verification
+  - cargo seal
+  - computer vision
+  - supply chain security
+  - FMCSA

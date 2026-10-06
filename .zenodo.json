@@ -1,0 +1,24 @@
+{
+  "title": "Freight Custody Verification Framework (FCVF), Version 0.1, draft for public comment",
+  "upload_type": "publication",
+  "publication_type": "technicalnote",
+  "description": "<p>An open framework specifying what a party that releases, receives, or carries truckload freight must do to verify, at each physical custody transfer (pickup, intermediate stop, delivery), that the vehicle taking custody belongs to the carrier of record and that the load's seal is present and intact, and what record of that verification must be kept.</p><p>The framework contains 48 numbered requirements using RFC 2119 key words at three cumulative conformance levels (Basic: procedure, phone, and public registry; Standard: photographs, verification before release, second-channel confirmation, red flags; Full: automated identity read and seal detection), a 24-field evidence record designed for cross-organization aggregation, verdict grading (release, verify, hold), ten risk rules derived from FBI and FMCSA guidance, a self-assessment checklist, and a mapping to the FBI IC3 PSA I-043026, U.S. DOT Docket DOT-OST-2025-1326, FMCSA registration reform, CBP CTPAT seal procedures and ISO 17712, TAPA FSR/TSR 2023, and the TIA Framework to Combat Fraud.</p><p>An open-source reference implementation (carrier-verify, seal-check, gate-verify) is released separately under Apache-2.0.</p><p>This is a draft for public comment and has not been adopted by any standards body, association, or agency.</p>",
+  "creators": [
+    { "name": "Meng, Lingyu", "affiliation": "Independent" }
+  ],
+  "keywords": [
+    "cargo theft", "freight fraud", "fictitious pickup", "double brokering", "custody transfer",
+    "carrier verification", "USDOT number", "cargo seal", "seal detection", "computer vision",
+    "supply chain security", "FMCSA", "trucking", "warehouse gate", "yard management"
+  ],
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "language": "eng",
+  "version": "0.1-draft",
+  "related_identifiers": [
+    { "identifier": "https://pypi.org/project/carrier-verify/", "relation": "isSupplementedBy", "resource_type": "software" },
+    { "identifier": "https://www.ic3.gov/PSA/2026/PSA260430", "relation": "references", "resource_type": "publication-other" },
+    { "identifier": "https://www.regulations.gov/docket/DOT-OST-2025-1326", "relation": "references", "resource_type": "publication-other" }
+  ],
+  "notes": "Comments are invited through the repository issue tracker. Changes are listed by requirement identifier in CHANGELOG.md."
+}

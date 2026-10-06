@@ -1,0 +1,41 @@
+{
+  "fcvf_version": "0.1",
+  "transfer_id": "2026-10-06T14:12:00Z-SITE0421-000317",
+  "stage": "pickup",
+  "timestamp": "2026-10-06T14:12:07-05:00",
+  "site_id": "SITE0421",
+  "load_reference": "BOL-77A3Q9",
+  "carrier_of_record": { "usdot": "1234567", "legal_name": "EXAMPLE FREIGHT LINES LLC", "mc_number": "MC987654" },
+  "carrier_of_record_source": { "document": "rate_confirmation", "confirmed_with_intermediary": true, "confirmation_channel": "phone_on_file" },
+  "usdot_as_read": "1234567",
+  "read_method": "automated",
+  "registry_result": {
+    "queried_at": "2026-10-06T14:12:09-05:00",
+    "legal_name": "EXAMPLE FREIGHT LINES LLC",
+    "dba_name": null,
+    "allowed_to_operate": true,
+    "out_of_service": false,
+    "out_of_service_date": null,
+    "authority_status": "ACTIVE",
+    "mcs150_date": "2026-02-11",
+    "power_units": 6,
+    "drivers": 7,
+    "lookup_error": null
+  },
+  "identity_match": { "result": "match", "reason": "Registry legal name equals carrier of record" },
+  "red_flags": [],
+  "license_plate": { "plate": "ABC1234", "state": "TX" },
+  "seal_expected": { "identifier": "SL00482913", "seal_type": "bolt", "source": "shipping_documents" },
+  "seal_observed": { "presence": "present", "identifier": "SL00482913", "seal_type": "bolt", "tamper_evidence": false },
+  "seal_detection_method": "automated",
+  "seal_match": "match",
+  "previous_seal_event": null,
+  "images": [
+    { "view": "cab_side", "reference": "s3://example/0421/000317-cab.jpg", "captured_at": "2026-10-06T14:11:58-05:00", "redacted": false },
+    { "view": "door_closure", "reference": "s3://example/0421/000317-door.jpg", "captured_at": "2026-10-06T14:12:03-05:00", "redacted": false }
+  ],
+  "verdict": { "result": "release", "recommended_by": "system", "reasons": ["identity match", "seal present and matches expected", "no red flags"] },
+  "decided_by": "gate-clerk-07",
+  "override": { "applied": false },
+  "incident": { "recorded": false }
+}
